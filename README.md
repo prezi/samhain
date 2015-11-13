@@ -1,10 +1,10 @@
 # chef-samhain-cookbook
-
-TODO: Enter the cookbook description here.
+Installs and configures Samhain for host integrity monitoring. 
+Samhain is pronounced 'saah-win' or 'saa-ween'
 
 ## Supported Platforms
 
-TODO: List your supported platforms.
+Ubuntu 14.04
 
 ## Attributes
 
@@ -39,4 +39,4 @@ Include `chef-samhain` in your node's `run_list`:
 
 ## License and Authors
 
-Author:: YOUR_NAME (<YOUR_EMAIL>)
+Author:: Ele Mooney (<ele.mooney@socrata.com>)

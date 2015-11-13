@@ -4,8 +4,6 @@
 #
 # installs and configures samhain for host integrity monitoring
 
-# get the package and test gpg
+package 'samhain'
 
-# build 
 
-# install

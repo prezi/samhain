@@ -1,4 +1,4 @@
-# chef-samhain-cookbook
+# samhain-cookbook
 Installs and configures Samhain for host integrity monitoring. 
 Samhain is pronounced 'saah-win' or 'saa-ween'
 
@@ -16,7 +16,7 @@ Ubuntu 14.04
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['chef-samhain']['bacon']</tt></td>
+    <td><tt>['samhain']['bacon']</tt></td>
     <td>Boolean</td>
     <td>whether to include bacon</td>
     <td><tt>true</tt></td>
@@ -25,14 +25,14 @@ Ubuntu 14.04
 
 ## Usage
 
-### chef-samhain::default
+### samhain::default
 
-Include `chef-samhain` in your node's `run_list`:
+Include `samhain` in your node's `run_list`:
 
 ```json
 {
   "run_list": [
-    "recipe[chef-samhain::default]"
+    "recipe[samhain::default]"
   ]
 }
 ```

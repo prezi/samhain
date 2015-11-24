@@ -1,9 +1,9 @@
-name             'chef-samhain'
+name             'samhain'
 maintainer       'Ele Mooney'
 maintainer_email 'ele.mooney@socrata.com'
 license          'All rights reserved'
-description      'Installs/Configures chef-samhain'
-long_description 'Installs/Configures chef-samhain'
+description      'Installs/Configures samhain'
+long_description 'Installs/Configures samhain'
 version          '0.1.0'
 
 supports 'ubuntu'

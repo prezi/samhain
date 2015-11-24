@@ -4,24 +4,10 @@
 #
 # installs and configures samhain for host integrity monitoring
 
+require_relative '../libraries/samhain_cookbook'
 package 'samhain'
 
-def build_config
-  samhainrc = ''
-  node['samhain'].each do |k, v|
-    samhainrc << "[#{k}]\n"
-    if v.has_key? 'file'
-      v['file'].each{ |file, bool| samhainrc << "file=#{file}\n"}
-    elsif v.has_key? 'dir'
-      v['dir'].each{ |dir, bool| samhainrc << "dir=#{dir}\n" }
-    else
-      v.each{ |k, v| samhainrc << "#{k}=#{v}\n" }
-    end
-  end
-  return samhainrc
-end
-
-samhainrc = build_config
+samhainrc = SamhainCookbook::Helpers.build_config(node)
 
 service 'samhain' do
   reload_command 'samhain reload'

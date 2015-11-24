@@ -1,7 +1,0 @@
-DEPENDENCIES
-  samhain
-    path: .
-    metadata: true
-
-GRAPH
-  samhain (0.1.0)

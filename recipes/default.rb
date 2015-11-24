@@ -18,3 +18,4 @@ template '/etc/samhain/samhainrc' do
   notifies :reload, 'service[samhain]'
 end
 
+node['samhain'].each{ |x| puts x }

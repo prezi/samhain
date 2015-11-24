@@ -1,4 +1,4 @@
-default['Attributes']['file'].tap do |f|
+default['samhain']['Attributes']['file'].tap do |f|
   f["/etc/mtab"] = true,
   f["/etc/ssh_random_seed"] = true,
   f["/etc/asound.conf"] = true,
@@ -14,11 +14,11 @@ default['Attributes']['file'].tap do |f|
   f["/etc/ld.so.cache"] = true,
   f["/etc"] = true
 end
-default['LogFiles']['file'].tap do |f|
+default['samhain']['LogFiles']['file'].tap do |f|
   f["/var/run/utmp"] = true,
   f["/etc/motd"] = true
 end
-default['GrowingLogFiles']['file'].tap do |f|
+default['samhain']['GrowingLogFiles']['file'].tap do |f|
   f["/var/log/warn"] = true,
   f["/var/log/messages"] = true,
   f["/var/log/wtmp"] = true,
@@ -29,12 +29,12 @@ default['GrowingLogFiles']['file'].tap do |f|
   f["/var/log/kern.log"] = true,
   f["/var/log/syslog"] = true
 end
-default['IgnoreAll']['file'].tap do |f|
+default['samhain']['IgnoreAll']['file'].tap do |f|
   f["/etc/resolv.conf.pcmcia.save"] = true,
   f["/etc/nologin"] = true,
   f["/etc/network/run"] = true
 end
-default['ReadOnly']['dir'].tap do |d|
+default['samhain']['ReadOnly']['dir'].tap do |d|
   d["/usr/bin"] = true,
   d["/bin"] = true,
   d["/boot"] = true,
@@ -43,30 +43,30 @@ default['ReadOnly']['dir'].tap do |d|
   d["/lib"] = true,
   d["3/etc"] = true
 end
-default['ReadOnly']['file'].tap do |f|  
+default['samhain']['ReadOnly']['file'].tap do |f|  
   f["/usr/lib/pt_chown"] = true
 end
-default['EventSeverity']['SeverityReadOnly'] = "crit"
-default['EventSeverity']['SeverityLogFiles'] = "crit"
-default['EventSeverity']['SeverityGrowingLogs'] = "warn"
-default['EventSeverity']['SeverityIgnoreNone'] = "crit"
-default['EventSeverity']['SeverityAttributes'] = "crit"
-default['EventSeverity']['SeverityIgnoreAll'] = "info"
-default['EventSeverity']['SeverityFiles'] = "crit"
-default['EventSeverity']['SeverityDirs'] = "crit"
-default['EventSeverity']['SeverityNames'] = "warn"
-default['Log']['MailSeverity'] = "crit"
-default['Log']['PrintSeverity'] = "none"
-default['Log']['LogSeverity'] = "info"
-default['Log']['SyslogSeverity'] = "alert"
-default['Log']['ExportSeverity'] = "none"
-default['Misc']['Daemon'] = "yes"
-default['Misc']['ChecksumTest'] = "check"
-default['Misc']['SetLoopTime'] = "600"
-default['Misc']['SetFileCheckTime'] = "7200"
-default['Misc']['SetMailTime'] = "86400"
-default['Misc']['SetMailNum'] = "10"
-default['Misc']['SetMailAddress'] = "root@localhost"
-default['Misc']['SetMailRelay'] = "localhost"
-default['Misc']['MailSubject'] = "[Samhain at %H] %T: %S"
-default['Misc']['SyslogFacility'] = "LOG_LOCAL2"
+default['samhain']['EventSeverity']['SeverityReadOnly'] = "crit"
+default['samhain']['EventSeverity']['SeverityLogFiles'] = "crit"
+default['samhain']['EventSeverity']['SeverityGrowingLogs'] = "warn"
+default['samhain']['EventSeverity']['SeverityIgnoreNone'] = "crit"
+default['samhain']['EventSeverity']['SeverityAttributes'] = "crit"
+default['samhain']['EventSeverity']['SeverityIgnoreAll'] = "info"
+default['samhain']['EventSeverity']['SeverityFiles'] = "crit"
+default['samhain']['EventSeverity']['SeverityDirs'] = "crit"
+default['samhain']['EventSeverity']['SeverityNames'] = "warn"
+default['samhain']['Log']['MailSeverity'] = "crit"
+default['samhain']['Log']['PrintSeverity'] = "none"
+default['samhain']['Log']['LogSeverity'] = "info"
+default['samhain']['Log']['SyslogSeverity'] = "alert"
+default['samhain']['Log']['ExportSeverity'] = "none"
+default['samhain']['Misc']['Daemon'] = "yes"
+default['samhain']['Misc']['ChecksumTest'] = "check"
+default['samhain']['Misc']['SetLoopTime'] = "600"
+default['samhain']['Misc']['SetFileCheckTime'] = "7200"
+default['samhain']['Misc']['SetMailTime'] = "86400"
+default['samhain']['Misc']['SetMailNum'] = "10"
+default['samhain']['Misc']['SetMailAddress'] = "root@localhost"
+default['samhain']['Misc']['SetMailRelay'] = "localhost"
+default['samhain']['Misc']['MailSubject'] = "[Samhain at %H] %T: %S"
+default['samhain']['Misc']['SyslogFacility'] = "LOG_LOCAL2"

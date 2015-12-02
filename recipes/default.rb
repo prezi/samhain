@@ -4,7 +4,6 @@
 #
 # installs and configures samhain for host integrity monitoring
 
-require_relative '../libraries/samhain_cookbook'
 package 'samhain'
 
 samhainrc = SamhainCookbook::Helpers.build_config(node)

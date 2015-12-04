@@ -1,6 +1,6 @@
 # samhain
+Installs and configures Samhain for host integrity monitoring. 
 
-Wrapper cookbook for Samhain with Socrata attributes. 
 ## Supported Platforms
 
 supports ubuntu 14.04
@@ -30,7 +30,7 @@ For more information on Samhain, see their docs at
 
 ### samhain::default
 
-Include `socrata-samhain` in your node's `run_list`:
+Include `samhain` in your node's `run_list`:
 
 ```json
 {

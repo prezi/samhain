@@ -1,19 +1,39 @@
+# Encoding: UTF-8
+
 source 'https://rubygems.org'
 
-gem 'berkshelf'
+group :development do
+  gem 'yard-chef'
+  gem 'guard'
+  gem 'guard-foodcritic'
+  gem 'guard-rspec'
+  gem 'guard-kitchen'
+end
 
-# Uncomment these lines if you want to live on the Edge:
-#
-# group :development do
-#   gem "berkshelf", github: "berkshelf/berkshelf"
-#   gem "vagrant", github: "mitchellh/vagrant", tag: "v1.6.3"
-# end
-#
-# group :plugins do
-#   gem "vagrant-berkshelf", github: "berkshelf/vagrant-berkshelf"
-#   gem "vagrant-omnibus", github: "schisamo/vagrant-omnibus"
-# end
+group :test do
+  gem 'rake'
+  gem 'rubocop'
+  gem 'foodcritic'
+  gem 'rspec'
+  gem 'chefspec'
+  gem 'simplecov'
+  gem 'simplecov-console'
+  gem 'coveralls'
+  gem 'fauxhai'
+  gem 'test-kitchen'
+  gem 'kitchen-vagrant'
+  gem 'kitchen-docker'
+end
 
-gem "test-kitchen"
-gem "kitchen-vagrant"
-gem "kitchen-docker"
+group :integration do
+  gem 'serverspec'
+end
+
+group :deploy do
+  gem 'stove'
+end
+
+group :production do
+  gem 'chef', '>= 11'
+  gem 'berkshelf', '>= 3'
+end

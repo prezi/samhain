@@ -20,10 +20,8 @@
 
 package 'samhain'
 
-samhainrc = SamhainCookbook::Helpers.build_config(node)
-
 file '/etc/samhain/samhainrc' do
-  content samhainrc
+  content SamhainCookbook::Helpers.build_config(node)
   owner 'root'
   group 'root'
   mode '0644'

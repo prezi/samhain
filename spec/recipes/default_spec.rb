@@ -18,7 +18,7 @@ describe 'samhain::default' do
       mode: '0644'
     )
     expect(chef_run).to render_file('/etc/samhain/samhainrc').with_content(
-      <<-EOH.gsub(/^ {8}/, '')
+      <<-EOH.gsub(/^ {8}/, '').strip
         [Attributes]
         file=/etc/mtab
         file=/etc/ssh_random_seed
@@ -53,6 +53,13 @@ describe 'samhain::default' do
         file=/etc/network/run
         [ReadOnly]
         file=/usr/lib/pt_chown
+        dir=/usr/bin
+        dir=/bin
+        dir=/boot
+        dir=3/sbin
+        dir=/usr/sbin
+        dir=/lib
+        dir=3/etc
         [EventSeverity]
         SeverityReadOnly=crit
         SeverityLogFiles=crit

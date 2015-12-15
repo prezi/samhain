@@ -19,20 +19,28 @@
 #
 
 module SamhainCookbook
-  module Helpers    
-    def self.build_config(node)  
-      samhainrc = ''
-      node['samhain']['config'].each do |k, v|
-        samhainrc << "[#{k}]\n"
-        if v.has_key? 'file'
-          v['file'].each{ |file, bool| samhainrc << "file=#{file}\n"}
-        elsif v.has_key? 'dir'
-          v['dir'].each{ |dir, bool| samhainrc << "dir=#{dir}\n" }
-        else
-          v.each{ |k, v| samhainrc << "#{k}=#{v}\n" }
+  # A set of helper methods for generating a valid Samhain config.
+  #
+  # @author Ele Mooney <ele.mooney@socrata.com>
+  module Helpers
+    #
+    # Construct a valid Samhain config based on a node object.
+    #
+    # @param node [Chef::Node] a node object with Samhain attributes
+    #
+    # @return [String] Contents for a samhainrc file
+    #
+    def self.build_config(node)
+      lines = []
+      node['samhain']['config'].map do |section, vals|
+        lines << "[#{section}]"
+        (vals['file'] || {}).each { |k, v| lines << "file=#{k}" if v }
+        (vals['dir'] || {}).each { |k, v| lines << "dir=#{k}" if v }
+        vals.each do |k, v|
+          lines << "#{k}=#{v}" unless %w(file dir).include?(k)
         end
       end
-      return samhainrc
+      lines.join("\n")
     end
   end
 end

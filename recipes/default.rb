@@ -28,16 +28,22 @@ file '/etc/samhain/samhainrc' do
   notifies :reload, 'service[samhain]'
 end
 
-cookbook_file '/etc/init.d/samhain' do
-  source 'samhain.startLinux'
+file '/etc/init.d/samhain' do
   owner 'root'
   group 'root'
   mode '0755'
-  notifies :restart, 'service[samhain]'
+  content lazy {
+    ::File.open('/etc/init.d/samhain').read.gsub(
+      "pidofproc -p $PIDFILE\n", "pidofproc -p $PIDFILE $DAEMON\n"
+    )
+  }
+
+  only_if do
+    node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
+  end
 end
 
 service 'samhain' do
   supports status: true, restart: true, reload: true
-  reload_command 'samhain reload'
   action [:enable, :start]
 end

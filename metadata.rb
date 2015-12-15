@@ -9,7 +9,5 @@ description      'Installs/configures Samhain'
 long_description 'Installs/configures Samhain'
 version          '0.1.1'
 
-depends          'logrotate', '>= 1.0'
-
 supports         'ubuntu'
 # rubocop:enable SingleSpaceBeforeFirstArg

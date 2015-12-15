@@ -5,9 +5,11 @@ name             'samhain'
 maintainer       'Ele Mooney'
 maintainer_email 'ele.mooney@socrata.com'
 license          'apache2'
-description      'Installs/Configures samhain'
-long_description 'Installs/Configures samhain'
+description      'Installs/configures Samhain'
+long_description 'Installs/configures Samhain'
 version          '0.1.1'
 
-supports 'ubuntu'
+depends          'logrotate', '>= 1.0'
+
+supports         'ubuntu'
 # rubocop:enable SingleSpaceBeforeFirstArg

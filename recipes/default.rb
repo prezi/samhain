@@ -22,14 +22,24 @@ package 'samhain'
 
 samhainrc = SamhainCookbook::Helpers.build_config(node)
 
-service 'samhain' do
-  reload_command 'samhain reload'
-end
-
 file '/etc/samhain/samhainrc' do
   content samhainrc
   owner 'root'
   group 'root'
-  mode '644'
+  mode '0644'
   notifies :reload, 'service[samhain]'
+end
+
+cookbook_file '/etc/init.d/samhain' do
+  source 'samhain.startLinux'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  notifies :restart, 'service[samhain]'
+end
+
+service 'samhain' do
+  supports status: true, restart: true, reload: true
+  reload_command 'samhain reload'
+  action [:enable, :start]
 end

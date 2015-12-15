@@ -1,3 +1,23 @@
+# Encoding: UTF-8
+#
+# Cookbook Name:: samhain
+# Attributes:: default
+#
+# Copyright 2015 Socrata, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 default['samhain']['config']['Attributes']['file'].tap do |f|
   f['/etc/mtab'] = true
   f['/etc/ssh_random_seed'] = true
@@ -43,30 +63,36 @@ default['samhain']['config']['ReadOnly']['dir'].tap do |d|
   d['/lib'] = true
   d['3/etc'] = true
 end
-default['samhain']['config']['ReadOnly']['file'].tap do |f|  
+default['samhain']['config']['ReadOnly']['file'].tap do |f|
   f['/usr/lib/pt_chown'] = true
 end
-default['samhain']['config']['EventSeverity']['SeverityReadOnly'] = 'crit'
-default['samhain']['config']['EventSeverity']['SeverityLogFiles'] = 'crit'
-default['samhain']['config']['EventSeverity']['SeverityGrowingLogs'] = 'warn'
-default['samhain']['config']['EventSeverity']['SeverityIgnoreNone'] = 'crit'
-default['samhain']['config']['EventSeverity']['SeverityAttributes'] = 'crit'
-default['samhain']['config']['EventSeverity']['SeverityIgnoreAll'] = 'info'
-default['samhain']['config']['EventSeverity']['SeverityFiles'] = 'crit'
-default['samhain']['config']['EventSeverity']['SeverityDirs'] = 'crit'
-default['samhain']['config']['EventSeverity']['SeverityNames'] = 'warn'
-default['samhain']['config']['Log']['MailSeverity'] = 'crit'
-default['samhain']['config']['Log']['PrintSeverity'] = 'none'
-default['samhain']['config']['Log']['LogSeverity'] = 'info'
-default['samhain']['config']['Log']['SyslogSeverity'] = 'alert'
-default['samhain']['config']['Log']['ExportSeverity'] = 'none'
-default['samhain']['config']['Misc']['Daemon'] = 'yes'
-default['samhain']['config']['Misc']['ChecksumTest'] = 'check'
-default['samhain']['config']['Misc']['SetLoopTime'] = '600'
-default['samhain']['config']['Misc']['SetFileCheckTime'] = '7200'
-default['samhain']['config']['Misc']['SetMailTime'] = '86400'
-default['samhain']['config']['Misc']['SetMailNum'] = '10'
-default['samhain']['config']['Misc']['SetMailAddress'] = 'root@localhost'
-default['samhain']['config']['Misc']['SetMailRelay'] = 'localhost'
-default['samhain']['config']['Misc']['MailSubject'] = '[Samhain at %H] %T: %S'
-default['samhain']['config']['Misc']['SyslogFacility'] = 'LOG_LOCAL2'
+default['samhain']['config']['EventSeverity'].tap do |e|
+  e['SeverityReadOnly'] = 'crit'
+  e['SeverityLogFiles'] = 'crit'
+  e['SeverityGrowingLogs'] = 'warn'
+  e['SeverityIgnoreNone'] = 'crit'
+  e['SeverityAttributes'] = 'crit'
+  e['SeverityIgnoreAll'] = 'info'
+  e['SeverityFiles'] = 'crit'
+  e['SeverityDirs'] = 'crit'
+  e['SeverityNames'] = 'warn'
+end
+default['samhain']['config']['Log'].tap do |l|
+  l['MailSeverity'] = 'crit'
+  l['PrintSeverity'] = 'none'
+  l['LogSeverity'] = 'info'
+  l['SyslogSeverity'] = 'alert'
+  l['ExportSeverity'] = 'none'
+end
+default['samhain']['config']['Misc'].tap do |m|
+  m['Daemon'] = 'yes'
+  m['ChecksumTest'] = 'check'
+  m['SetLoopTime'] = '600'
+  m['SetFileCheckTime'] = '7200'
+  m['SetMailTime'] = '86400'
+  m['SetMailNum'] = '10'
+  m['SetMailAddress'] = 'root@localhost'
+  m['SetMailRelay'] = 'localhost'
+  m['MailSubject'] = '[Samhain at %H] %T: %S'
+  m['SyslogFacility'] = 'LOG_LOCAL2'
+end

@@ -7,7 +7,7 @@ maintainer_email 'ele.mooney@socrata.com'
 license          'apache2'
 description      'Installs/configures Samhain'
 long_description 'Installs/configures Samhain'
-version          '0.2.0'
+version          '0.2.1'
 
 supports         'ubuntu'
 # rubocop:enable SingleSpaceBeforeFirstArg

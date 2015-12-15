@@ -1,6 +1,9 @@
 Samhain Cookbook CHANGELOG
 ==========================
 
+v?.?.? (????-??-??)
+-------------------
+
 v0.2.0 (2015-12-15)
 -------------------
 - Fix failures in service restarts and reloads in Ubuntu 14.04 by modifying

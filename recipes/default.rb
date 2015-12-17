@@ -24,18 +24,3 @@ samhain 'default' do
     source node['samhain']['app']['source']
   end
 end
-
-file '/etc/init.d/samhain' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  content lazy {
-    ::File.open('/etc/init.d/samhain').read.gsub(
-      "pidofproc -p $PIDFILE\n", "pidofproc -p $PIDFILE $DAEMON\n"
-    )
-  }
-
-  only_if do
-    node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
-  end
-end

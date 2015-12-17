@@ -15,8 +15,11 @@ Installs and configures Samhain for host integrity monitoring.
 Requirements
 ============
 
-This cookbook is currently tested against Ubuntu 14.04 only. Any other
-platforms, YMMV.
+This cookbook currently supports Ubuntu only. The hope is to eventually
+support other platforms as well.
+
+Assorted older Chef and Ruby conventions are intentionally used to (for now)
+maintain compatibility with Chef 11.
 
 Usage
 =====
@@ -62,6 +65,131 @@ The intent of the attributes file is to allow
 service owners to add files to the Samhain watchlist. 
 For more information on Samhain, see their docs at
 [Samhain Labs](http://www.la-samhna.de/samhain/s_documentation.html)
+
+Resources
+=========
+
+***samhain***
+
+A parent resource for the Samhain components.
+
+Syntax:
+
+    samhain 'default' do
+        config { 'Attributes' => { 'file' => { '/etc/mtab' => true } } }
+        source 'http://example.com/samhain.package'
+        action :create
+    end
+
+Actions:
+
+| Action    | Description                                  |
+|-----------|----------------------------------------------|
+| `:create` | Install, configure, and enaile+start Samhain |
+| `:remove` | Stop+disable and remove Samhain              |
+
+Attributes:
+
+| Attribute | Default    | Description                         |
+|-----------|------------|-------------------------------------|
+| config    | `nil`      | A Samhain configuration hash        |
+| source    | `nil`      | An optional custom package PATH/URL |
+| action    | `:create`  | Action(s) to perform                |
+
+***samhain_app***
+
+A resource for installation and removal of the Samhain app package.
+
+Syntax:
+
+    samhain_app 'default' do
+        source 'http://example.com/samhain.package'
+        action :install
+    end
+
+Actions:
+
+| Action     | Description                   |
+|------------|-------------------------------|
+| `:install` | Install the Samhain package   |
+| `:remove`  | Uninstall the Samhain package |
+
+Attributes:
+
+| Attribute | Default    | Description                         |
+|-----------|------------|-------------------------------------|
+| source    | `nil`      | An optional custom package PATH/URL |
+| action    | `:install` | Action(s) to perform                |
+
+***samhain_config***
+
+A resource for generating Samhain configurations.
+
+Syntax:
+
+    samhain_config 'default' do
+        config { 'Attributes' => { 'file' => { '/etc/mtab' => true } } }
+        action :create
+    end
+
+Actions:
+
+| Action    | Description                         |
+|-----------|-------------------------------------|
+| `:create` | Write out the samhainrc config file |
+| `:remove` | Delete the samhainrc config file    |
+
+Attributes:
+
+| Attribute | Default    | Description                         |
+|-----------|------------|-------------------------------------|
+| config    | `nil`      | A Samhain configuration hash        |
+| action    | `:create`  | Action(s) to perform                |
+
+***samhain_service***
+
+A resource for the Samhain service.
+
+Syntax:
+
+    samhain_service 'default' do
+        action [:enable, :start]
+    end
+
+Actions:
+
+| Action     | Description         |
+|------------|---------------------|
+| `:enable`  | Enable the service  |
+| `:disable` | Disable the service |
+| `:start`   | Start the service   |
+| `:stop`    | Stop the service    |
+| `:restart` | Restart the service |
+
+Attributes:
+
+| Attribute | Default             | Description          |
+|-----------|---------------------|----------------------|
+| action    | `[:enable, :start]` | Action(s) to perform |
+
+Providers
+=========
+
+***Chef::Provider::Samhain***
+
+Platform-agnostic provider that wraps each of the Samhain component resources.
+
+***Chef::Provider::SamhainApp***
+
+The parent for all platform-specific Samhain app package providers.
+
+***Chef::Provider::SamhainApp::Ubuntu***
+
+An implementation of the samhain_app provider for Ubuntu.
+
+***Chef::Provider::SamhainService***
+
+Platform-agnostic provider for managing the Samhain service.
 
 Contributing
 ============

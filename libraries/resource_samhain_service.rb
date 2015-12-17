@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: samhain
-# Recipe:: default
+# Library:: resource_samhain_service
 #
 # Copyright 2015 Socrata, Inc.
 #
@@ -18,24 +18,18 @@
 # limitations under the License.
 #
 
-samhain 'default' do
-  config node['samhain']['config'] unless node['samhain']['config'].nil?
-  unless node['samhain']['app']['source'].nil?
-    source node['samhain']['app']['source']
-  end
-end
+require 'chef/resource/service'
+require 'chef/resource/lwrp_base'
 
-file '/etc/init.d/samhain' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  content lazy {
-    ::File.open('/etc/init.d/samhain').read.gsub(
-      "pidofproc -p $PIDFILE\n", "pidofproc -p $PIDFILE $DAEMON\n"
-    )
-  }
-
-  only_if do
-    node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
+class Chef
+  class Resource
+    # A Chef resource for the Samhain service.
+    #
+    # @author Jonathan Hartman <jonathan.hartman@socrata.com>
+    class SamhainService < LWRPBase
+      self.resource_name = :samhain_service
+      actions Chef::Resource::Service.new('_', nil).allowed_actions
+      default_action [:enable, :start]
+    end
   end
 end

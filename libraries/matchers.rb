@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: samhain
-# Recipe:: default
+# Library:: matchers
 #
 # Copyright 2015 Socrata, Inc.
 #
@@ -18,24 +18,26 @@
 # limitations under the License.
 #
 
-samhain 'default' do
-  config node['samhain']['config'] unless node['samhain']['config'].nil?
-  unless node['samhain']['app']['source'].nil?
-    source node['samhain']['app']['source']
+if defined?(ChefSpec)
+  [:samhain, :samhain_app, :samhain_service].each do |m|
+    ChefSpec.define_matcher(m)
   end
-end
 
-file '/etc/init.d/samhain' do
-  owner 'root'
-  group 'root'
-  mode '0755'
-  content lazy {
-    ::File.open('/etc/init.d/samhain').read.gsub(
-      "pidofproc -p $PIDFILE\n", "pidofproc -p $PIDFILE $DAEMON\n"
-    )
-  }
+  [:create, :remove].each do |a|
+    define_method("#{a}_samhain") do |name|
+      ChefSpec::Matchers::ResourceMatcher.new(:samhain, a, name)
+    end
+  end
 
-  only_if do
-    node['platform'] == 'ubuntu' && node['platform_version'] == '14.04'
+  [:install, :remove].each do |a|
+    define_method("#{a}_samhain_app") do |name|
+      ChefSpec::Matchers::ResourceMatcher.new(:samhain_app, a, name)
+    end
+  end
+
+  [:enable, :disable, :start, :stop, :restart].each do |a|
+    define_method("#{a}_samhain_service") do |name|
+      ChefSpec::Matchers::ResourceMatcher.new(:samhain_service, a, name)
+    end
   end
 end

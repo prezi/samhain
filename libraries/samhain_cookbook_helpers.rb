@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: samhain
-# Library:: samhain_cookbook
+# Library:: samhain_cookbook_helpers
 #
 # Copyright 2015 Socrata, Inc.
 #
@@ -24,15 +24,16 @@ module SamhainCookbook
   # @author Ele Mooney <ele.mooney@socrata.com>
   module Helpers
     #
-    # Construct a valid Samhain config based on a node object.
+    # Construct a valid Samhain config based on a config hash.
     #
-    # @param node [Chef::Node] a node object with Samhain attributes
+    # @param config [Hash] a hash represenation of a samhain config
     #
     # @return [String] Contents for a samhainrc file
     #
-    def self.build_config(node)
+    def self.build_config(config)
+      return nil if config.nil? || config.empty?
       lines = []
-      node['samhain']['config'].map do |section, vals|
+      config.map do |section, vals|
         lines << "[#{section}]"
         (vals['file'] || {}).each { |k, v| lines << "file=#{k}" if v }
         (vals['dir'] || {}).each { |k, v| lines << "dir=#{k}" if v }

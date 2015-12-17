@@ -22,26 +22,46 @@ module SamhainCookbook
   # A set of helper methods for generating a valid Samhain config.
   #
   # @author Ele Mooney <ele.mooney@socrata.com>
-  module Helpers
-    #
-    # Construct a valid Samhain config based on a config hash.
-    #
-    # @param config [Hash] a hash represenation of a samhain config
-    #
-    # @return [String] Contents for a samhainrc file
-    #
-    def self.build_config(config)
-      return nil if config.nil? || config.empty?
-      lines = []
-      config.map do |section, vals|
-        lines << "[#{section}]"
-        (vals['file'] || {}).each { |k, v| lines << "file=#{k}" if v }
-        (vals['dir'] || {}).each { |k, v| lines << "dir=#{k}" if v }
-        vals.each do |k, v|
-          lines << "#{k}=#{v}" unless %w(file dir).include?(k)
+  class Helpers
+    class << self
+      #
+      # Construct a valid Samhain config based on a config hash.
+      #
+      # @param config [Hash] a hash represenation of a samhain config
+      #
+      # @return [String] Contents for a samhainrc file
+      #
+      def build_config(config)
+        return nil if config.nil? || config.empty?
+        config.each_with_object([]) do |(section, vals), lines|
+          lines.concat(config_section_for(section, vals))
+        end.join("\n")
+      end
+
+      private
+
+      #
+      # Build the config lines representing a single section of a Samhain
+      # config.
+      #
+      # @param section [String] the name of the section
+      # @param vals [Hash] the config values under that section
+      #
+      # @return [Array<String>] an array of lines representing that config
+      #                         section
+      #
+      def config_section_for(section, vals)
+        vals.each_with_object(["[#{section}]"]) do |(k, v), lines|
+          case k
+          when 'file'
+            v.each { |subk, subv| lines << "file=#{subk}" if subv }
+          when 'dir'
+            v.each { |subk, subv| lines << "dir=#{subk}" if subv }
+          else
+            lines << "#{k}=#{v}"
+          end
         end
       end
-      lines.join("\n")
     end
   end
 end

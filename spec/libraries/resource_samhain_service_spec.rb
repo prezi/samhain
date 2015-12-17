@@ -13,12 +13,13 @@ describe Chef::Resource::SamhainService do
     end
 
     it 'sets the correct supported actions' do
-      expected = [:nothing, :enable, :disable, :start, :stop, :restart, :reload]
+      expected = [:nothing, :enable, :disable, :start, :stop, :restart, :reload,
+                  :create, :remove]
       expect(resource.allowed_actions).to eq(expected)
     end
 
     it 'sets the correct default action' do
-      expect(resource.action).to eq([:enable, :start])
+      expect(resource.action).to eq([:create, :enable, :start])
     end
   end
 end

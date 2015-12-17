@@ -28,8 +28,9 @@ class Chef
     # @author Jonathan Hartman <jonathan.hartman@socrata.com>
     class SamhainService < LWRPBase
       self.resource_name = :samhain_service
-      actions Chef::Resource::Service.new('_', nil).allowed_actions
-      default_action [:enable, :start]
+      actions Chef::Resource::Service.new('_', nil).allowed_actions + \
+        [:create, :remove]
+      default_action [:create, :enable, :start]
     end
   end
 end

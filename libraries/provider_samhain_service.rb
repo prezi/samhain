@@ -49,6 +49,19 @@ class Chef
       Resource::SamhainService.new('_', nil).allowed_actions.each do |a|
         action(a) { service('samhain') { action a } }
       end
+
+      #
+      # Normally, the service definition comes with the app package, so the
+      # :create action doesn't need to do anything.
+      #
+      action(:create) {}
+
+      #
+      # Ensure that the Samhain service definition is deleted.
+      #
+      action :remove do
+        file('/etc/init.d/samhain') { action :delete }
+      end
     end
   end
 end

@@ -41,4 +41,22 @@ describe Chef::Provider::SamhainService do
       end
     end
   end
+
+  describe '#action_create' do
+    it 'does nothing' do
+      p = provider
+      expect(p).to_not receive(:service)
+      expect(p).to_not receive(:file)
+      p.action_create
+    end
+  end
+
+  describe '#action_remove' do
+    it 'deletes the Samhain service definition' do
+      p = provider
+      expect(p).to receive(:file).with('/etc/init.d/samhain').and_yield
+      expect(p).to receive(:action).with(:delete)
+      p.action_remove
+    end
+  end
 end

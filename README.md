@@ -153,24 +153,26 @@ A resource for the Samhain service.
 Syntax:
 
     samhain_service 'default' do
-        action [:enable, :start]
+        action [:create, :enable, :start]
     end
 
 Actions:
 
-| Action     | Description         |
-|------------|---------------------|
-| `:enable`  | Enable the service  |
-| `:disable` | Disable the service |
-| `:start`   | Start the service   |
-| `:stop`    | Stop the service    |
-| `:restart` | Restart the service |
+| Action     | Description                   |
+|------------|-------------------------------|
+| `:create`  | Ensure the service is defined |
+| `:remove`  | Delete the service definition |
+| `:enable`  | Enable the service            |
+| `:disable` | Disable the service           |
+| `:start`   | Start the service             |
+| `:stop`    | Stop the service              |
+| `:restart` | Restart the service           |
 
 Attributes:
 
-| Attribute | Default             | Description          |
-|-----------|---------------------|----------------------|
-| action    | `[:enable, :start]` | Action(s) to perform |
+| Attribute | Default                      | Description          |
+|-----------|------------------------------|----------------------|
+| action    | `[:create, :enable, :start]` | Action(s) to perform |
 
 Providers
 =========
@@ -190,6 +192,11 @@ An implementation of the samhain_app provider for Ubuntu.
 ***Chef::Provider::SamhainService***
 
 Platform-agnostic provider for managing the Samhain service.
+
+***Chef::Provider::SamhainServce::Ubuntu::Trusty***
+
+Specialized provider to patch the malfunctioning init script that ships with
+Samhain for Ubuntu 14.04.
 
 Contributing
 ============

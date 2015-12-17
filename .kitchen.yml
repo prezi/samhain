@@ -17,4 +17,6 @@ suites:
   - name: default
     run_list:
       - recipe[samhain::default]
-    attributes:
+  - name: remove
+    run_list:
+      - recipe[samhain_test::remove]

@@ -47,7 +47,7 @@ describe Chef::Provider::Samhain do
       p = provider
       expect(p).to receive(:samhain_config).with(name).and_yield
       expect(p).to receive(:config).with(nil)
-      expect(p).to receive(:notifies).with("samhain_service[#{name}]", :reload)
+      expect(p).to receive(:notifies).with(:reload, "samhain_service[#{name}]")
       p.action_create
     end
 

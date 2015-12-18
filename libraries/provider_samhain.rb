@@ -43,9 +43,11 @@ class Chef
       # Install, configure, and enable+start Samhain.
       #
       action :create do
-        samhain_app(new_resource.name) { source new_resource.source }
+        samhain_app(new_resource.name) do
+          source new_resource.source unless new_resource.source.nil?
+        end
         samhain_config(new_resource.name) do
-          config new_resource.config
+          config new_resource.config unless new_resource.config.nil?
           notifies :reload, "samhain_service[#{new_resource.name}]"
         end
         samhain_service(new_resource.name)

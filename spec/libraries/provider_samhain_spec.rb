@@ -39,14 +39,14 @@ describe Chef::Provider::Samhain do
     it 'installs the Samhain app' do
       p = provider
       expect(p).to receive(:samhain_app).with(name).and_yield
-      expect(p).to receive(:source).with(nil)
+      expect(p).to_not receive(:source)
       p.action_create
     end
 
     it 'creates a Samhain config' do
       p = provider
       expect(p).to receive(:samhain_config).with(name).and_yield
-      expect(p).to receive(:config).with(nil)
+      expect(p).to_not receive(:config)
       expect(p).to receive(:notifies).with(:reload, "samhain_service[#{name}]")
       p.action_create
     end

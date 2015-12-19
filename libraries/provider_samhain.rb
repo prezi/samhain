@@ -57,7 +57,7 @@ class Chef
       # Disable+stop Samhain, remove its configuration, and uninstall the app.
       #
       action :remove do
-        samhain_service(new_resource.name) { action [:stop, :disable] }
+        samhain_service(new_resource.name) { action [:stop, :disable, :remove] }
         samhain_config(new_resource.name) { action :remove }
         samhain_app(new_resource.name) { action :remove }
       end

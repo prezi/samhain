@@ -65,10 +65,10 @@ describe Chef::Provider::Samhain do
       end
     end
 
-    it 'stops and disables the Samhain service' do
+    it 'stops, disables, and removes the Samhain service' do
       p = provider
       expect(p).to receive(:samhain_service).with(name).and_yield
-      expect(p).to receive(:action).with([:stop, :disable])
+      expect(p).to receive(:action).with([:stop, :disable, :remove])
       p.action_remove
     end
 

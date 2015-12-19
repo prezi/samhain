@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: samhain
-# Recipe:: default
+# Library:: resource_samhain_app
 #
 # Copyright 2015 Socrata, Inc.
 #
@@ -18,9 +18,23 @@
 # limitations under the License.
 #
 
-samhain 'default' do
-  config node['samhain']['config'] unless node['samhain']['config'].nil?
-  unless node['samhain']['app']['source'].nil?
-    source node['samhain']['app']['source']
+require 'chef/resource/lwrp_base'
+require_relative 'provider_samhain_app'
+
+class Chef
+  class Resource
+    # A Chef resource for the Samhain app.
+    #
+    # @author Jonathan Hartman <jonathan.hartman@socrata.com>
+    class SamhainApp < LWRPBase
+      self.resource_name = :samhain_app
+      actions :install, :remove
+      default_action :install
+
+      #
+      # Attribute to allow an override of the default package source path/URL.
+      #
+      attribute :source, kind_of: String, default: nil
+    end
   end
 end

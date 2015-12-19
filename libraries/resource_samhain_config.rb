@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: samhain
-# Recipe:: default
+# Library:: resource_samhain_config
 #
 # Copyright 2015 Socrata, Inc.
 #
@@ -18,9 +18,23 @@
 # limitations under the License.
 #
 
-samhain 'default' do
-  config node['samhain']['config'] unless node['samhain']['config'].nil?
-  unless node['samhain']['app']['source'].nil?
-    source node['samhain']['app']['source']
+require 'chef/resource/lwrp_base'
+require_relative 'provider_samhain_config'
+
+class Chef
+  class Resource
+    # A Chef resource for a Samhain configuration.
+    #
+    # @author Jonathan Hartman <jonathan.hartman@socrata.com>
+    class SamhainConfig < LWRPBase
+      self.resource_name = :samhain_config
+      actions :create, :remove
+      default_action :create
+
+      #
+      # Attribute for an input config hash.
+      #
+      attribute :config, kind_of: Hash, default: nil
+    end
   end
 end

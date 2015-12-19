@@ -18,6 +18,7 @@
 # limitations under the License.
 #
 
+default['samhain']['app']['source'] = nil
 default['samhain']['config']['Attributes']['file'].tap do |f|
   f['/etc/mtab'] = true
   f['/etc/ssh_random_seed'] = true

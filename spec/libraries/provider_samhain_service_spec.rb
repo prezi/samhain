@@ -36,6 +36,9 @@ describe Chef::Provider::SamhainService do
       it 'passes the action onto a Chef service resource' do
         p = provider
         expect(p).to receive(:service).with('samhain').and_yield
+        expect(p).to receive(:supports).with(restart: true,
+                                             reload: true,
+                                             status: true)
         expect(p).to receive(:action).with(a)
         p.send("action_#{a}")
       end

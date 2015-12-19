@@ -47,7 +47,12 @@ class Chef
       # Chef 11 we need to maintain support for.
       #
       Resource::SamhainService.new('_', nil).allowed_actions.each do |a|
-        action(a) { service('samhain') { action a } }
+        action(a) do
+          service 'samhain' do
+            supports restart: true, reload: true, status: true
+            action a
+          end
+        end
       end
 
       #

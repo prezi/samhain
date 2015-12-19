@@ -38,11 +38,20 @@ class Chef
         #
         # Ensure the APT cache is up to date and install the Samhain package.
         #
-        # (see Chef::Provider::SamhainApp)
+        # (see Chef::Provider::SamhainApp#install!)
         #
         def install!
           include_recipe 'apt'
           super
+        end
+
+        #
+        # Use the :purge action to remove Samhain instead of :remove.
+        #
+        # (see Chef::Provider::SamhainApp#remove!)
+        #
+        def remove!
+          package('samhain') { action :purge }
         end
       end
     end

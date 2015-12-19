@@ -81,10 +81,10 @@ describe Chef::Provider::SamhainApp::Ubuntu do
       allow_any_instance_of(described_class).to receive(:package)
     end
 
-    it 'removes the Samhain package' do
+    it 'purges the Samhain package' do
       p = provider
       expect(p).to receive(:package).with('samhain').and_yield
-      expect(p).to receive(:action).with(:remove)
+      expect(p).to receive(:action).with(:purge)
       p.send(:remove!)
     end
   end

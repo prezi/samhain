@@ -1,6 +1,9 @@
 Samhain Cookbook CHANGELOG
 ==========================
 
+v?.?.? (????-??-??)
+-------------------
+
 v0.3.0 (2015-12-21)
 -------------------
 - Convert everything to HWRPs

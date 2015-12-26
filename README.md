@@ -15,8 +15,8 @@ Installs and configures Samhain for host integrity monitoring.
 Requirements
 ============
 
-This cookbook currently supports Ubuntu only. The hope is to eventually
-support other platforms as well.
+This cookbook currently supports Ubuntu only and is actively tested against
+15.10 and 14.04. The hope is to support other platforms as well in the future.
 
 Assorted older Chef and Ruby conventions are intentionally used to (for now)
 maintain compatibility with Chef 11.

@@ -94,7 +94,9 @@ describe :provider_mapping do
                               __FILE__))
         expect(provider).to eq(Chef::Provider::Samhain)
         expect(app_provider).to eq(Chef::Provider::SamhainApp::Ubuntu::Precise)
-        expect(service_provider).to eq(Chef::Provider::SamhainService)
+        expect(service_provider).to eq(
+          Chef::Provider::SamhainService::Ubuntu::Precise
+        )
       end
     end
   end

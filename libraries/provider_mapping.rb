@@ -27,6 +27,7 @@ require_relative 'provider_samhain_app_ubuntu_precise'
 require_relative 'provider_samhain_config'
 require_relative 'provider_samhain_service'
 require_relative 'provider_samhain_service_ubuntu_trusty'
+require_relative 'provider_samhain_service_ubuntu_precise'
 
 if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12')
   Chef::Platform.set(resource: :samhain,
@@ -46,4 +47,8 @@ if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12')
                      platform: :ubuntu,
                      version: '14.04',
                      provider: Chef::Provider::SamhainService::Ubuntu::Trusty)
+  Chef::Platform.set(resource: :samhain_service,
+                     platform: :ubuntu,
+                     version: '12.04',
+                     provider: Chef::Provider::SamhainService::Ubuntu::Precise)
 end

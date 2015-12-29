@@ -74,6 +74,33 @@ describe :provider_mapping do
     end
   end
 
+  context 'Ubuntu 12.04' do
+    let(:platform) { { platform: 'ubuntu', version: '12.04' } }
+
+    context 'Chef 12' do
+      let(:chef_version) { '12.4.1' }
+
+      it_behaves_like 'Chef 12'
+    end
+
+    context 'Chef 11' do
+      let(:chef_version) { '11.16.4' }
+
+      it 'sets up old-style provider mappings' do
+        allow(Chef::Log).to receive(:warn)
+        expect(Chef::Platform).to receive(:set).at_least(1).times
+          .and_call_original
+        load(File.expand_path('../../../libraries/provider_mapping.rb',
+                              __FILE__))
+        expect(provider).to eq(Chef::Provider::Samhain)
+        expect(app_provider).to eq(Chef::Provider::SamhainApp::Ubuntu)
+        expect(service_provider).to eq(
+          Chef::Provider::SamhainService::Ubuntu::Precise
+        )
+      end
+    end
+  end
+
   context 'Ubuntu 15.04' do
     let(:platform) { { platform: 'ubuntu', version: '15.04' } }
 

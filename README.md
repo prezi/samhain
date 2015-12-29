@@ -16,7 +16,8 @@ Requirements
 ============
 
 This cookbook currently supports Ubuntu only and is actively tested against
-15.10 and 14.04. The hope is to support other platforms as well in the future.
+15.10, 14.04, and 12.04. The hope is to support other platforms as well in the
+future.
 
 Assorted older Chef and Ruby conventions are intentionally used to (for now)
 maintain compatibility with Chef 11.

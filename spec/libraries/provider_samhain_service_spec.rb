@@ -33,13 +33,9 @@ describe Chef::Provider::SamhainService do
 
   [:enable, :disable, :start, :stop, :restart, :reload].each do |a|
     describe "#action_#{a}" do
-      it 'passes the action onto a Chef service resource' do
+      it 'passes the action on to the samhain_service method' do
         p = provider
-        expect(p).to receive(:service).with('samhain').and_yield
-        expect(p).to receive(:supports).with(restart: true,
-                                             reload: true,
-                                             status: true)
-        expect(p).to receive(:action).with(a)
+        expect(p).to receive(:samhain_service).with(a)
         p.send("action_#{a}")
       end
     end
@@ -60,6 +56,22 @@ describe Chef::Provider::SamhainService do
       expect(p).to receive(:file).with('/etc/init.d/samhain').and_yield
       expect(p).to receive(:action).with(:delete)
       p.action_remove
+    end
+  end
+
+  describe '#samhain_service' do
+    [:enable, :start, [:stop, :disable]].each do |a|
+      context "'#{a}' action(s)" do
+        it 'passes the action(s) on to a service resource' do
+          p = provider
+          expect(p).to receive(:service).with('samhain').and_yield
+          expect(p).to receive(:supports).with(restart: true,
+                                               reload: true,
+                                               status: true)
+          expect(p).to receive(:action).with(a)
+          p.send(:samhain_service, a)
+        end
+      end
     end
   end
 end

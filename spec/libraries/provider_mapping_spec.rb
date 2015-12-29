@@ -93,7 +93,7 @@ describe :provider_mapping do
         load(File.expand_path('../../../libraries/provider_mapping.rb',
                               __FILE__))
         expect(provider).to eq(Chef::Provider::Samhain)
-        expect(app_provider).to eq(Chef::Provider::SamhainApp::Ubuntu::Precise)
+        expect(app_provider).to eq(Chef::Provider::SamhainApp::Ubuntu)
         expect(service_provider).to eq(
           Chef::Provider::SamhainService::Ubuntu::Precise
         )

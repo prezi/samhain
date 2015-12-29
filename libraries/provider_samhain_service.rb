@@ -48,10 +48,7 @@ class Chef
       #
       Resource::SamhainService.new('_', nil).allowed_actions.each do |a|
         action(a) do
-          service 'samhain' do
-            supports restart: true, reload: true, status: true
-            action a
-          end
+          samhain_service(a)
         end
       end
 
@@ -66,6 +63,21 @@ class Chef
       #
       action :remove do
         file('/etc/init.d/samhain') { action :delete }
+      end
+
+      private
+
+      #
+      # Split the samhain service resource out to its own method so other child
+      # classes can easily override it as needed.
+      #
+      # @param actions [Symbol, Array<Symbol>] action(s) to perform on the
+      #                                        Samhain service resource
+      def samhain_service(actions)
+        service 'samhain' do
+          supports restart: true, reload: true, status: true
+          action actions
+        end
       end
     end
   end

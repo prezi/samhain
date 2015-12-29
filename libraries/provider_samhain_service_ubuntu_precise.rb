@@ -37,39 +37,17 @@ class Chef
           end
 
           #
-          # Override the start action to wait for Samhain to finish starting.
+          # Override the normal service resource to use a custom status check
+          # command. This should circumvent the race conditions that arise
+          # from the init script on Precise exiting before its status check
+          # considers the service fully "started".
           #
-          # (see Chef::Provider::SamhainService#action_start
+          # (see Chef::Provider::SamhainService#samhain_service)
           #
-          def action_start
-            super
-            wait_for_samhain_to_start
-          end
-
-          #
-          # Override the restart action to wait for Samhain to finish starting.
-          #
-          # (see Chef::Provider::SamhainService#action_restart
-          #
-          def action_restart
-            super
-            wait_for_samhain_to_start
-          end
-
-          #
-          # Use a ruby_block resource to watch and wait if Samhain is in its
-          # intermediate starting state where only one process is running
-          # instead of zero or two.
-          #
-          def wait_for_samhain_to_start
-            ruby_block 'Wait for Samhain service to start' do
-              block do
-                fail if shell_out('ps h -C samhain').stdout.lines.length == 1
-              end
-              retries 5
-              retry_delay 1
-              subscribes :run, 'service[samhain]', :immediately
-              action :nothing
+          def samhain_service(actions)
+            service 'samhain' do
+              supports restart: true, reload: true, status: false
+              action actions
             end
           end
         end

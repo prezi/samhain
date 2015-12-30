@@ -1,7 +1,7 @@
 Samhain Cookbook CHANGELOG
 ==========================
 
-v?.?.? (????-??-??)
+v0.4.0 (2015-12-30)
 -------------------
 - Add support for legacy versions of Ubuntu (with testing done against 12.04)
 

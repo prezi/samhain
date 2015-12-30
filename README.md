@@ -16,8 +16,9 @@ Requirements
 ============
 
 This cookbook currently supports Ubuntu only and is actively tested against
-15.10, 14.04, and 12.04. The hope is to support other platforms as well in the
-future.
+15.04, 14.04, and 12.04 while also attempting to maintain (untested)
+compatibility with 10.04. The hope is to support other platforms as well in
+the future.
 
 Assorted older Chef and Ruby conventions are intentionally used to (for now)
 maintain compatibility with Chef 11.
@@ -54,13 +55,17 @@ samhainrc is not a perfect hash, the syntax for adding attributes is a bit
 different. 
 
 To overwrite regular attributes:
+
 ```ruby
     ['samhain']['config']['Misc']['bacon'] = 'Applewood Smoked'
 ```
+
 To add files or directories for monitoring: 
+
 ```ruby
     ['samhain']['config']['LogFiles']['file']['path/to/my/file'] = true
 ```
+
 ## Usage
 The intent of the attributes file is to allow
 service owners to add files to the Samhain watchlist. 

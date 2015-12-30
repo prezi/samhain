@@ -1,9 +1,9 @@
 # Encoding: UTF-8
 
 require_relative '../spec_helper'
-require_relative '../../libraries/provider_samhain_service_ubuntu_precise'
+require_relative '../../libraries/provider_samhain_service_ubuntu_legacy'
 
-describe Chef::Provider::SamhainService::Ubuntu::Precise do
+describe Chef::Provider::SamhainService::Ubuntu::Legacy do
   let(:name) { 'default' }
   let(:run_context) { ChefSpec::SoloRunner.new.converge.run_context }
   let(:new_resource) do
@@ -18,6 +18,14 @@ describe Chef::Provider::SamhainService::Ubuntu::Precise do
 
     context 'Ubuntu 12.04' do
       let(:platform) { { platform: 'ubuntu', version: '12.04' } }
+
+      it 'returns true' do
+        expect(res).to eq(true)
+      end
+    end
+
+    context 'Ubuntu 10.04' do
+      let(:platform) { { platform: 'ubuntu', version: '10.04' } }
 
       it 'returns true' do
         expect(res).to eq(true)

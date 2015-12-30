@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: samhain
-# Library:: provider_samhain_service_ubuntu_precise
+# Library:: provider_samhain_service_ubuntu_legacy
 #
 # Copyright 2015 Socrata, Inc.
 #
@@ -25,22 +25,25 @@ class Chef
   class Provider
     class SamhainService < LWRPBase
       class Ubuntu
-        # A customized Samhain service provider for Ubuntu 12.04, where the
-        # init script exits before the service is completely started.
+        # A customized Samhain service provider for versions Ubuntu < 14.04
+        # because:
+        #
+        #   * Ubuntu 12.04's init script exits before the service is finished
+        #     starting, causing a race condition when Chef is trying to figure
+        #     out the service's status.
+        #   * Ubuntu 10.04's init script lacked a :reload action entirely.
         #
         # @author Jonathan Hartman <jonathan.hartman@socrata.com>
-        class Precise < SamhainService
+        class Legacy < SamhainService
           if defined?(provides)
             provides :samhain_service,
                      platform: 'ubuntu',
-                     platform_version: '12.04'
+                     platform_version: '< 14.04'
           end
 
           #
-          # Override the normal service resource to use a custom status check
-          # command. This should circumvent the race conditions that arise
-          # from the init script on Precise exiting before its status check
-          # considers the service fully "started".
+          # Override the normal service resource to not use the init script's
+          # status check, if available.
           #
           # (see Chef::Provider::SamhainService#samhain_service)
           #

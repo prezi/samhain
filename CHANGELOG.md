@@ -3,7 +3,7 @@ Samhain Cookbook CHANGELOG
 
 v?.?.? (????-??-??)
 -------------------
-- Add support for Ubuntu 12.04
+- Add support for legacy versions of Ubuntu (with testing done against 12.04)
 
 v0.3.0 (2015-12-21)
 -------------------

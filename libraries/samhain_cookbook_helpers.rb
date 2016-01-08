@@ -38,6 +38,35 @@ module SamhainCookbook
         end.join("\n")
       end
 
+      #
+      # Examine a file/dir on the system and determine all the users that have
+      # group-write access to it. Members might be either:
+      #
+      #  * The system user corresponding to the group
+      #  * Any system users that are members of the group
+      #
+      # @param path [String] a system path
+      # @param passwd [Chef::Mash,Hash] an Ohai node['etc']['passwd'] section
+      # @param group [Chef::Mash,Hash] an Ohai node['etc']['group'] section
+      #
+      def users_with_group_write_access_for(path, passwd, group)
+        gid = File.stat(path).gid
+        users = Array(Array(passwd.find { |_, v| v['gid'] == gid })[0])
+        users + group.find { |_, vs| vs['gid'] == gid }[1]['members']
+      end
+
+      #
+      # Determine if a given file/dir path is group-writable.
+      #
+      # @param path [String] a system path
+      #
+      # @return [TrueClass,FalseClass] whether the path is group writable
+      #
+      def group_writable?(path)
+        perm = format('%o', File.stat(path).mode)[-2].to_i
+        [2, 3, 6, 7].include?(perm)
+      end
+
       private
 
       #

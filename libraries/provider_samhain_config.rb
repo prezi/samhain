@@ -42,13 +42,35 @@ class Chef
 
       #
       # Generate a config file based on the input config hash.
+      # At least on Ubuntu, Samhain is not compiled with any trusted users and
+      # will fail to start because of /var/log being group-writable, so always
+      # ensure that the relevant user(s) get(s) trusted in those cases.
       #
       action :create do
         file '/etc/samhain/samhainrc' do
           owner 'root'
           group 'root'
           mode '0644'
-          content SamhainCookbook::Helpers.build_config(new_resource.config)
+          content lazy {
+            if SamhainCookbook::Helpers.group_writable?('/var/log')
+              us = new_resource.config &&
+                   new_resource.config['Misc'] && \
+                   new_resource.config['Misc']['TrustedUser'] && \
+                   new_resource.config['Misc']['TrustedUser'].split(',') || \
+                   []
+              us += SamhainCookbook::Helpers.users_with_group_write_access_for(
+                '/var/log', node['etc']['passwd'], node['etc']['group']
+              )
+              m = new_resource.config['Misc'].merge(
+                'TrustedUser' => us.join(',')
+              )
+              SamhainCookbook::Helpers.build_config(
+                new_resource.config.merge('Misc' => m)
+              )
+            else
+              SamhainCookbook::Helpers.build_config(new_resource.config)
+            end
+          }
         end
       end
 

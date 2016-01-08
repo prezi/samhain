@@ -30,6 +30,8 @@ describe Chef::Provider::SamhainConfig do
   end
 
   describe '#action_create' do
+    let(:log_group_writable?) { false }
+    let(:log_write_users) { [] }
     let(:config) { nil }
 
     let(:new_resource) do
@@ -40,6 +42,11 @@ describe Chef::Provider::SamhainConfig do
 
     before(:each) do
       allow_any_instance_of(described_class).to receive(:file)
+      allow(SamhainCookbook::Helpers).to receive(:group_writable?)
+        .and_return(log_group_writable?)
+      allow(SamhainCookbook::Helpers).to receive(
+        :users_with_group_write_access_for
+      ).and_return(log_write_users)
     end
 
     context 'a nil config' do
@@ -51,6 +58,7 @@ describe Chef::Provider::SamhainConfig do
         expect(p).to receive(:owner).with('root')
         expect(p).to receive(:group).with('root')
         expect(p).to receive(:mode).with('0644')
+        expect(p).to receive(:lazy).and_yield
         expect(p).to receive(:content).with(nil)
         p.action_create
       end
@@ -65,6 +73,7 @@ describe Chef::Provider::SamhainConfig do
         expect(p).to receive(:owner).with('root')
         expect(p).to receive(:group).with('root')
         expect(p).to receive(:mode).with('0644')
+        expect(p).to receive(:lazy).and_yield
         expect(p).to receive(:content).with(nil)
         p.action_create
       end
@@ -79,7 +88,34 @@ describe Chef::Provider::SamhainConfig do
         expect(p).to receive(:owner).with('root')
         expect(p).to receive(:group).with('root')
         expect(p).to receive(:mode).with('0644')
+        expect(p).to receive(:lazy).and_yield
         expect(p).to receive(:content).with("[Attributes]\nfile=/etc/mtab")
+        p.action_create
+      end
+    end
+
+    context 'a group-writable log directory' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+      let(:node) { ChefSpec::Macros.stub_node('node.example', platform) }
+      let(:log_group_writable?) { true }
+      let(:log_write_users) { %w(user1 user2) }
+      let(:config) { { 'Misc' => { 'TrustedUser' => 'other1,other2' } } }
+
+      before(:each) do
+        allow_any_instance_of(described_class).to receive(:node)
+          .and_return(node)
+      end
+
+      it 'merges the users with write access into the config' do
+        p = provider
+        expect(p).to receive(:file).with('/etc/samhain/samhainrc').and_yield
+        expect(p).to receive(:owner).with('root')
+        expect(p).to receive(:group).with('root')
+        expect(p).to receive(:mode).with('0644')
+        expect(p).to receive(:lazy).and_yield
+        expect(p).to receive(:content).with(
+          "[Misc]\nTrustedUser=other1,other2,user1,user2"
+        )
         p.action_create
       end
     end

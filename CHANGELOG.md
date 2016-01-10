@@ -3,6 +3,8 @@ Samhain Cookbook CHANGELOG
 
 v?.?.? (????-??-??)
 -------------------
+- Get rid of errors about access to `/var/log` by granting trusted status to
+  any user with group-write access
 
 v0.4.0 (2015-12-30)
 -------------------

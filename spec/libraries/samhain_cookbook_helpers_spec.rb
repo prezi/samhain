@@ -209,4 +209,91 @@ describe SamhainCookbook::Helpers do
       end
     end
   end
+
+  describe '#users_with_group_write_access_for' do
+    let(:path) { '/var/test' }
+    let(:passwd) { {} }
+    let(:group) { {} }
+    let(:gid) { 123 }
+    let(:res) do
+      described_class.users_with_group_write_access_for(path, passwd, group)
+    end
+
+    before(:each) do
+      allow(File).to receive(:stat).with(path).and_return(double(gid: gid))
+    end
+
+    context 'a group with no members' do
+      let(:group) do
+        {
+          'test' => { 'gid' => gid, 'members' => [] },
+          'test2' => { 'gid' => 456, 'members' => %w(pants shirts) }
+        }
+      end
+
+      it 'returns an empty array' do
+        expect(res).to eq([])
+      end
+    end
+
+    context 'a group with some members' do
+      let(:group) do
+        {
+          'test' => { 'gid' => gid, 'members' => %w(pants shirts) },
+          'test2' => { 'git' => 456, 'members' => %w(spats neckties) }
+        }
+      end
+
+      it 'returns the group members' do
+        expect(res).to eq(%w(pants shirts))
+      end
+    end
+
+    context 'the group corresponding to a system user' do
+      let(:passwd) do
+        {
+          'user' => { 'uid' => 888, 'gid' => gid },
+          'user2' => { 'uid' => 999, 'gid' => 456 }
+        }
+      end
+
+      let(:group) do
+        {
+          'user' => { 'gid' => gid, 'members' => [] },
+          'user2' => { 'gid' => 456, 'members' => [] },
+          'group' => { 'gid' => 789, 'members' => %w(pants shirts) }
+        }
+      end
+
+      it 'returns the system user' do
+        expect(res).to eq(%w(user))
+      end
+    end
+  end
+
+  describe '#group_writable?' do
+    let(:path) { '/var/test' }
+    let(:mode) { nil }
+    let(:res) { described_class.group_writable?(path) }
+
+    before(:each) do
+      allow(File).to receive(:stat).with(path).and_return(double(mode: mode))
+    end
+
+    [
+      { chmod: '755', mode: 16_877, expected: false },
+      { chmod: '777', mode: 16_895, expected: true },
+      { chmod: '744', mode: 16_868, expected: false },
+      { chmod: '724', mode: 16_852, expected: true },
+      { chmod: '000', mode: 16_384, expected: false }
+    ].each do |test|
+      context "chmod #{test[:chmod]}" do
+        let(:mode) { test[:mode] }
+
+        it "returns #{test[:expected]}" do
+          expect(res).to eq(test[:expected])
+        end
+      end
+    end
+  end
 end

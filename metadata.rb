@@ -7,7 +7,7 @@ maintainer_email 'ele.mooney@socrata.com'
 license          'apache2'
 description      'Installs/configures Samhain'
 long_description 'Installs/configures Samhain'
-version          '0.5.0'
+version          '0.5.1'
 
 depends          'apt'
 

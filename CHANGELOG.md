@@ -1,6 +1,9 @@
 Samhain Cookbook CHANGELOG
 ==========================
 
+Unreleased
+----------
+
 v0.5.0 (2016-01-09)
 -------------------
 - Get rid of errors about access to `/var/log` by granting trusted status to

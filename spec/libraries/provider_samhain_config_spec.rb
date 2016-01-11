@@ -119,6 +119,32 @@ describe Chef::Provider::SamhainConfig do
         p.action_create
       end
     end
+
+    context 'a duplicate trusted user' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+      let(:node) { ChefSpec::Macros.stub_node('node.example', platform) }
+      let(:log_group_writable?) { true }
+      let(:log_write_users) { %w(user1 user2) }
+      let(:config) { { 'Misc' => { 'TrustedUser' => 'user1,other1,other2' } } }
+
+      before(:each) do
+        allow_any_instance_of(described_class).to receive(:node)
+          .and_return(node)
+      end
+
+      it 'uniq-ifies the user list before passing it on' do
+        p = provider
+        expect(p).to receive(:file).with('/etc/samhain/samhainrc').and_yield
+        expect(p).to receive(:owner).with('root')
+        expect(p).to receive(:group).with('root')
+        expect(p).to receive(:mode).with('0644')
+        expect(p).to receive(:lazy).and_yield
+        expect(p).to receive(:content).with(
+          "[Misc]\nTrustedUser=user1,other1,other2,user2"
+        )
+        p.action_create
+      end
+    end
   end
 
   describe '#action_remove' do

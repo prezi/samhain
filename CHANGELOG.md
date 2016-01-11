@@ -1,6 +1,9 @@
 Samhain Cookbook CHANGELOG
 ==========================
 
+Unreleased
+----------
+
 v0.5.1 (2016-01-11)
 -------------------
 - Catch and clean up cases of duplicate trusted users

@@ -62,7 +62,7 @@ class Chef
                 '/var/log', node['etc']['passwd'], node['etc']['group']
               )
               m = new_resource.config['Misc'].merge(
-                'TrustedUser' => us.join(',')
+                'TrustedUser' => us.uniq.join(',')
               )
               SamhainCookbook::Helpers.build_config(
                 new_resource.config.merge('Misc' => m)

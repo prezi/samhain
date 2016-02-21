@@ -1,6 +1,5 @@
 # Encoding: UTF-8
-#
-# rubocop:disable SingleSpaceBeforeFirstArg
+
 name             'samhain'
 maintainer       'Ele Mooney'
 maintainer_email 'ele.mooney@socrata.com'
@@ -12,4 +11,3 @@ version          '0.5.2'
 depends          'apt'
 
 supports         'ubuntu'
-# rubocop:enable SingleSpaceBeforeFirstArg

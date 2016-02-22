@@ -35,5 +35,5 @@ end
 
 group :production do
   gem 'chef', '>= 11'
-  gem 'berkshelf', '>= 3'
+  gem 'berkshelf'
 end

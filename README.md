@@ -1,3 +1,6 @@
+This is a Prezi fork of the samhain cookbook from Socrata, Inc.
+For now, please do not contribute the changes back - it might contain Prezi-specific stuff.
+
 Samhain Cookbook
 ================
 [![Cookbook Version](https://img.shields.io/cookbook/v/samhain.svg)][cookbook]
@@ -10,7 +13,7 @@ Samhain Cookbook
 [codeclimate]: https://codeclimate.com/github/socrata-cookbooks/samhain
 [coveralls]: https://coveralls.io/r/socrata-cookbooks/samhain
 
-Installs and configures Samhain for host integrity monitoring. 
+Installs and configures Samhain for host integrity monitoring.
 
 Requirements
 ============
@@ -52,7 +55,7 @@ The attributes in `attributes/default.rb` are for the basic configuration of
 Samhain. They write to a file at `/etc/samhain/samhainrc` The config is written
 at run time and can be extended from any book by adding attributes. Since the
 samhainrc is not a perfect hash, the syntax for adding attributes is a bit
-different. 
+different.
 
 To overwrite regular attributes:
 
@@ -60,7 +63,7 @@ To overwrite regular attributes:
     ['samhain']['config']['Misc']['bacon'] = 'Applewood Smoked'
 ```
 
-To add files or directories for monitoring: 
+To add files or directories for monitoring:
 
 ```ruby
     ['samhain']['config']['LogFiles']['file']['path/to/my/file'] = true
@@ -68,7 +71,7 @@ To add files or directories for monitoring:
 
 ## Usage
 The intent of the attributes file is to allow
-service owners to add files to the Samhain watchlist. 
+service owners to add files to the Samhain watchlist.
 For more information on Samhain, see their docs at
 [Samhain Labs](http://www.la-samhna.de/samhain/s_documentation.html)
 

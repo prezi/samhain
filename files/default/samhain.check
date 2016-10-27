@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ -f /var/run/samhain/samhain.pid ]]; then
+  kill -SIGTTOU $(cat /var/run/samhain/samhain.pid)
+else
+  echo "The samhain daemon does not seem to be running: pid file does not exist"
+  ps aux | grep samhain
+  exit 100
+fi

@@ -24,3 +24,10 @@ samhain 'default' do
     source node['samhain']['app']['source']
   end
 end
+
+cookbook_file '/usr/sbin/samhain.check' do
+  source "samhain.check"
+  owner "root"
+  group "root"
+  mode 0744
+end

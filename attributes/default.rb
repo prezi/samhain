@@ -35,10 +35,16 @@ default['samhain']['config']['Attributes']['file'].tap do |f|
   f['/etc/ld.so.cache'] = true
   f['/etc'] = true
 end
+
+default['samhain']['config']['Attributes']['dir'].tap do |d|
+  d['7/home'] = true
+end
+
 default['samhain']['config']['LogFiles']['file'].tap do |f|
   f['/var/run/utmp'] = true
   f['/etc/motd'] = true
 end
+
 default['samhain']['config']['GrowingLogFiles']['file'].tap do |f|
   f['/var/log/warn'] = true
   f['/var/log/messages'] = true
@@ -49,12 +55,17 @@ default['samhain']['config']['GrowingLogFiles']['file'].tap do |f|
   f['/var/log/user.log'] = true
   f['/var/log/kern.log'] = true
   f['/var/log/syslog'] = true
+  f['/mnt/scribe/*'] = true
+  f['/mnt/scribe_fallback/*'] = true
+  f['/var/log/audit/*'] = true
 end
+
 default['samhain']['config']['IgnoreAll']['file'].tap do |f|
   f['/etc/resolv.conf.pcmcia.save'] = true
   f['/etc/nologin'] = true
   f['/etc/network/run'] = true
 end
+
 default['samhain']['config']['ReadOnly']['dir'].tap do |d|
   d['/usr/bin'] = true
   d['/bin'] = true
@@ -62,11 +73,16 @@ default['samhain']['config']['ReadOnly']['dir'].tap do |d|
   d['3/sbin'] = true
   d['/usr/sbin'] = true
   d['/lib'] = true
+  d['/usr/lib'] = true
   d['3/etc'] = true
+  d['7/root'] = true
+  d['/lib64'] = true
 end
+
 default['samhain']['config']['ReadOnly']['file'].tap do |f|
   f['/usr/lib/pt_chown'] = true
 end
+
 default['samhain']['config']['EventSeverity'].tap do |e|
   e['SeverityReadOnly'] = 'crit'
   e['SeverityLogFiles'] = 'crit'
@@ -79,9 +95,9 @@ default['samhain']['config']['EventSeverity'].tap do |e|
   e['SeverityNames'] = 'warn'
 end
 default['samhain']['config']['Log'].tap do |l|
-  l['MailSeverity'] = 'crit'
-  l['PrintSeverity'] = 'none'
-  l['LogSeverity'] = 'info'
+  l['MailSeverity'] = 'none' # Mail is turned off by default for now
+  l['PrintSeverity'] = 'info'
+  l['LogSeverity'] = 'crit'
   l['SyslogSeverity'] = 'alert'
   l['ExportSeverity'] = 'none'
 end
@@ -92,8 +108,10 @@ default['samhain']['config']['Misc'].tap do |m|
   m['SetFileCheckTime'] = '7200'
   m['SetMailTime'] = '86400'
   m['SetMailNum'] = '10'
-  m['SetMailAddress'] = 'root@localhost'
+  m['SetMailAddress'] = 'security-notifications@prezi.com'
   m['SetMailRelay'] = 'localhost'
   m['MailSubject'] = '[Samhain at %H] %T: %S'
   m['SyslogFacility'] = 'LOG_LOCAL2'
+  m['ReportOnlyOnce'] = 'yes'
+  m['LooseDirCheck'] = 'yes'
 end

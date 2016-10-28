@@ -77,6 +77,7 @@ default['samhain']['config']['ReadOnly']['dir'].tap do |d|
   d['3/etc'] = true
   d['7/root'] = true
   d['/lib64'] = true
+  d['3/opt/prezi'] = true
 end
 
 default['samhain']['config']['ReadOnly']['file'].tap do |f|

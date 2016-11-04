@@ -58,6 +58,8 @@ default['samhain']['config']['GrowingLogFiles']['file'].tap do |f|
   f['/mnt/scribe/*'] = true
   f['/mnt/scribe_fallback/*'] = true
   f['/var/log/audit/*'] = true
+  f['/root/.bash_history'] = true
+  f['/home/*/.bash_history'] = true
 end
 
 default['samhain']['config']['IgnoreAll']['file'].tap do |f|
